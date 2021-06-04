@@ -105,37 +105,37 @@ export default {
 
     samples: {
       single: `\
-<Promised :promise="promise">
-  <template v-slot:pending>
-    <div class="loading-spinner"></div>
-  </template>
+      <Promised :promise="promise">
+        <template v-slot:pending>
+          <div class="loading-spinner"></div>
+        </template>
 
-  <template v-slot="joke">
-    <blockquote :key="joke.id">
-      <i>{{ joke.setup }}</i>
-      <br />
-      <br />
-      <p class="appear" @animationend="state = 'ready'">{{ joke.punchline }}</p>
-    </blockquote>
-  </template>
+        <template v-slot="joke">
+          <blockquote :key="joke.id">
+            <i>{{ joke.setup }}</i>
+            <br />
+            <br />
+            <p class="appear" @animationend="state = 'ready'">{{ joke.punchline }}</p>
+          </blockquote>
+        </template>
 
-  <template v-slot:rejected="error">
-    <div slot="rejected" slot-scope="error" class="message--error">
-      Error: {{ error.message }}
-    </div>
-  </template>
-</Promised>
-`,
+        <template v-slot:rejected="error">
+          <div slot="rejected" slot-scope="error" class="message--error">
+            Error: {{ error.message }}
+          </div>
+        </template>
+      </Promised>
+      `,
       combined: `\
-<promised :promise="promise" :pending-delay="1000" v-slot:combined="props">
-  <pre class="code">
-    isPending: {{ props.isPending }}
-    isDelayElapsed:{{ props.isDelayElapsed }}
-    error:{{ props.error && props.error.message }}
-    data: {{ props.data }}
-  </pre>
-</promised>
-`,
+      <promised :promise="promise" :pending-delay="1000" v-slot:combined="props">
+        <pre class="code">
+          isPending: {{ props.isPending }}
+          isDelayElapsed:{{ props.isDelayElapsed }}
+          error:{{ props.error && props.error.message }}
+          data: {{ props.data }}
+        </pre>
+      </promised>
+      `,
     },
   }),
 
