@@ -8,6 +8,8 @@ import { Refable } from './utils'
  * @param promise Ref of a Promise or raw Promise
  * @param pendingDelay optional delay to wait before displaying pending
  */
+
+let count: number = 0
 export function usePromise<T = unknown>(
   promise: Ref<Promise<T> | null | undefined>, // ! 学会用ts去表示 ref类型的数据。Ref<T> | T
   pendingDelay: Refable<number | string> = 200
@@ -24,6 +26,8 @@ export function usePromise<T = unknown>(
     () => unref(promise), //这里就是帮你访问了promise.value, 这里也会收集依赖，更方便一点
     // ! 学会使用这种方法，真的很厉害
     (newPromise) => {
+      count++
+      let watchCount: number = count
       isPending.value = true
       error.value = null
       if (!newPromise) {
@@ -49,6 +53,8 @@ export function usePromise<T = unknown>(
       newPromise
         .then((newData) => {
           // ensure we are dealing with the same promise
+          if (watchCount !== count) return // 说明当第一个promise还没有返回的时候，又触发了一次promise，此时第一次promisse应该被抛弃
+          // 作用域的问题，每一次这个里面的watchCount 都是自己函数的, 而 count确实一个全局的
           if (newPromise === unref(promise)) {
             // 自己写肯定就不会有这个判断
             data.value = newData
